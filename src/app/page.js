@@ -2,7 +2,7 @@
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState } from "react";
-import { IoMdPerson } from "react-icons/io";
+import { IoMdFlag } from "react-icons/io";
 import Map, { GeolocateControl, Marker, NavigationControl } from "react-map-gl";
 import * as turf from "@turf/turf";
 
@@ -22,12 +22,13 @@ export default function Home() {
 	};
 
 	function renderMarkerColor(d) {
+		console.log({ d });
 		const source = turf.point([d.lon, d.lat]);
 		const destination = turf.point([-122.4194, 37.7749]);
 		const distance = turf.distance(source, destination, {
 			units: "kilometers",
 		});
-		console.log("D=>", distance.toFixed(2) + " KM");
+		// console.log("D=>", distance.toFixed(2) + " KM");
 		if (distance.toFixed(2) > 10000) return "#0C9B46";
 		if (distance.toFixed(2) > 9000) return "#E8EB0A";
 		return "#B80505 ";
@@ -40,9 +41,9 @@ export default function Home() {
 				mapboxAccessToken={mapboxToken}
 				mapLib={import("mapbox-gl")}
 				initialViewState={{
-					longitude: -100,
-					latitude: 40,
-					zoom: 3.5,
+					longitude: 142.433,
+					latitude: 43.234,
+					zoom: 2.5,
 					maxZoom: 20,
 				}}
 				style={{ width: 600, height: 400 }}
@@ -64,7 +65,7 @@ export default function Home() {
 								className="cursor-pointer"
 								onClick={(e) => zoomToSelectedLoc(e, airport, index)}
 							>
-								{<IoMdPerson size={30} color={renderMarkerColor(airport)} />}
+								{<IoMdFlag size={30} color={renderMarkerColor(airport)} />}
 							</button>
 						</Marker>
 					);
