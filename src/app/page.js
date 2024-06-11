@@ -10,6 +10,8 @@ import MarkerDetails from "@/components/MarkerDetails";
 import sample_data from "./sample_data.json";
 
 const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const DEFAULT_LAT = "27.712021";
+const DEFAULT_LNG = "85.31295";
 
 export default function Home() {
 	const [selectedMarker, setSelectedMarker] = useState(null);
@@ -22,16 +24,15 @@ export default function Home() {
 	};
 
 	function renderMarkerColor(d) {
-		console.log({ d });
 		const source = turf.point([d.lon, d.lat]);
-		const destination = turf.point([-122.4194, 37.7749]);
+		const destination = turf.point([81.6145214,29.20272]); // Karnali River (lon,lat)
 		const distance = turf.distance(source, destination, {
 			units: "kilometers",
 		});
-		// console.log("D=>", distance.toFixed(2) + " KM");
-		if (distance.toFixed(2) > 10000) return "#0C9B46";
-		if (distance.toFixed(2) > 9000) return "#E8EB0A";
-		return "#B80505 ";
+		console.log("D=>", distance.toFixed(2) + " KM");
+		if (distance.toFixed(2) > 200) return "#0C9B46"; // Green
+		if (distance.toFixed(2) > 100) return "#E8EB0A"; // Yellow
+		return "#B80505 "; // Red
 	}
 
 	return (
@@ -41,9 +42,9 @@ export default function Home() {
 				mapboxAccessToken={mapboxToken}
 				mapLib={import("mapbox-gl")}
 				initialViewState={{
-					longitude: 142.433,
-					latitude: 43.234,
-					zoom: 2.5,
+					latitude: DEFAULT_LAT,
+					longitude: DEFAULT_LNG,
+					zoom: 5.5,
 					maxZoom: 20,
 				}}
 				style={{ width: 600, height: 400 }}
